@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>التسجيل المسبق لزيارات ديسمبر | الملحم للاستقدام</title>
+<meta name="description" content="حجوزات نوفمبر اكتملت. سجّل بياناتك الحين وخذ الأولوية في الزيارات اليومية لشهر ديسمبر: الزيارة بـ 200 ريال، وخذ زيارتين والثالثة مجانًا.">
+<meta name="theme-color" content="#0d4f31">
+<meta property="og:title" content="لا تخلي حجوزات ديسمبر تفوتك | الملحم للاستقدام">
+<meta property="og:description" content="الزيارات اليومية تسهّل يومك. سجّل الحين: خذ زيارتين والثالثة علينا.">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/png" href="icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green:#105B37; --green-dark:#06301B; --green-mid:#17714A; --green-soft:#E6F1EA;
+    --orange:#DD6927; --orange-hi:#F07A33; --beige:#F3DDBC; --mint:#CFE6D8;
+    --ink:#14261C; --muted:#5E7468; --line:#DCE6E0; --white:#fff; --error:#C0392B;
+    --radius:20px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; min-height:100vh; color:var(--white);
+    font-family:"IBM Plex Sans Arabic",system-ui,sans-serif; line-height:1.6;
+    background:var(--green-dark);
+    background-image:
+      linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px),
+      radial-gradient(circle at 50% 18%, #1f8556 0, var(--green-mid) 28%, #0d4f31 60%, var(--green-dark) 100%);
+    background-size:48px 48px,48px 48px,100% 100%;
+    background-attachment:fixed;
+  }
+  .wrap{max-width:520px; margin:0 auto; padding:20px 16px 40px}
+  header{display:flex; align-items:center; justify-content:space-between; gap:12px}
+  .logo{height:68px; width:auto; display:block}
+  .pill{font-size:13px; font-weight:600; padding:6px 14px; border-radius:999px;
+        background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.28); white-space:nowrap}
+  .hero{text-align:center; margin:34px 0 22px}
+  .eyebrow{display:inline-block; font-size:14px; font-weight:600; color:var(--beige); margin-bottom:6px}
+  h1{font-size:clamp(30px,9vw,42px); line-height:1.25; margin:0; font-weight:700}
+  h1 .acc{color:var(--orange-hi)}
+  .sub{margin:10px 0 0; font-size:17px; color:var(--mint); font-weight:500}
+  .sub b{color:var(--beige)}
+
+  /* العرض */
+  .offer{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:26px 0 8px}
+  .vbox{position:relative; text-align:center; padding:12px 6px 10px; border-radius:16px;
+        background:rgba(255,255,255,.10); border:1px solid rgba(255,255,255,.28)}
+  .vbox small{display:block; font-size:12px; color:var(--mint); font-weight:500}
+  .vbox strong{display:block; font-size:28px; line-height:1.3}
+  .vbox span{font-size:12px; color:var(--mint)}
+  .vbox.free{background:var(--orange); border-color:var(--orange)}
+  .vbox.free small,.vbox.free span{color:#fff}
+  .vbox.free .tag{color:var(--green)}
+  .vbox.free strong{font-size:24px; line-height:1.55}
+  .tag{position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:#fff; color:var(--green);
+       font-size:12px; font-weight:700; padding:1px 12px; border-radius:999px}
+  .offer-line{text-align:center; margin:6px 0 26px; font-size:16px; font-weight:600}
+  .offer-line b{color:var(--beige)}
+
+  /* الكارت */
+  .card{background:var(--white); color:var(--ink); border-radius:var(--radius); padding:22px 18px;
+        box-shadow:0 18px 50px rgba(0,0,0,.28)}
+  .card h2{margin:0 0 4px; font-size:20px; color:var(--green)}
+  .card .hint{margin:0 0 18px; font-size:14px; color:var(--muted)}
+  .field{margin-bottom:16px}
+  label,.label{display:block; font-weight:600; font-size:15px; margin-bottom:6px}
+  .req{color:var(--orange)}
+  input[type=text],input[type=tel],textarea{
+    width:100%; font:inherit; font-size:16px; color:var(--ink); background:#F7FAF8;
+    border:1.5px solid var(--line); border-radius:12px; padding:12px 14px; outline:none; transition:border-color .15s, box-shadow .15s}
+  input:focus,textarea:focus{border-color:var(--green); box-shadow:0 0 0 3px rgba(16,91,55,.15); background:#fff}
+  input[type=tel]{direction:ltr; text-align:right}
+  textarea{min-height:84px; resize:vertical}
+  .err{display:none; color:var(--error); font-size:13px; margin-top:4px}
+  .field.invalid .err{display:block}
+  .field.invalid input,.field.invalid .cal{border-color:var(--error)}
+
+  /* التقويم */
+  .cal{border:1.5px solid var(--line); border-radius:16px; padding:12px; background:#F7FAF8}
+  .cal-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:8px}
+  .cal-head strong{color:var(--green); font-size:17px}
+  .cal-head span{font-size:12px; color:var(--muted)}
+  .grid{display:grid; grid-template-columns:repeat(7,1fr); gap:5px}
+  .dow{text-align:center; font-size:12px; color:var(--muted); font-weight:600; padding:2px 0}
+  .day{aspect-ratio:1; border:1px solid var(--line); background:#fff; border-radius:10px; font:inherit;
+       font-size:15px; font-weight:600; color:var(--ink); cursor:pointer; padding:0; transition:transform .1s, background .15s}
+  .day:hover:not(:disabled){border-color:var(--green)}
+  .day:active:not(:disabled){transform:scale(.94)}
+  .day[aria-pressed=true]{background:var(--orange); border-color:var(--orange); color:#fff}
+  .day:disabled{background:transparent; border-color:transparent; color:#B7C4BC; cursor:not-allowed; text-decoration:line-through}
+  .day.empty{visibility:hidden}
+  .day:focus-visible{outline:3px solid rgba(16,91,55,.35); outline-offset:1px}
+  .summary{margin-top:10px; font-size:14px; min-height:22px}
+  .chips{display:flex; flex-wrap:wrap; gap:6px; margin-top:8px}
+  .chip{font-size:12px; background:var(--green-soft); color:var(--green); border-radius:999px; padding:3px 10px; font-weight:600}
+  .price{margin-top:10px; padding:10px 12px; border-radius:12px; background:var(--green-soft); color:var(--green); font-weight:600; font-size:14px; display:none}
+  .price.show{display:block}
+  .price.nudge{background:#FDEFE6; color:#A3461A}
+
+  /* اختيار الوقت */
+  .seg{display:grid; grid-template-columns:repeat(3,1fr); gap:8px}
+  .seg input{position:absolute; opacity:0; pointer-events:none}
+  .seg label{margin:0; text-align:center; padding:10px 6px; border:1.5px solid var(--line); border-radius:12px; cursor:pointer;
+             font-weight:600; font-size:15px; background:#F7FAF8}
+  .seg input:checked + label{border-color:var(--green); background:var(--green); color:#fff}
+  .seg input:focus-visible + label{box-shadow:0 0 0 3px rgba(16,91,55,.25)}
+
+  .btn{width:100%; border:0; cursor:pointer; font:inherit; font-size:19px; font-weight:700; color:#fff; background:var(--orange);
+       border-radius:14px; padding:14px; display:flex; align-items:center; justify-content:center; gap:10px;
+       box-shadow:0 10px 24px rgba(221,105,39,.35); transition:transform .1s, filter .15s}
+  .btn:hover{filter:brightness(1.05)} .btn:active{transform:scale(.98)}
+  .btn[disabled]{opacity:.7; cursor:progress}
+  .btn svg{width:22px; height:22px}
+  .privacy{font-size:12px; color:var(--muted); text-align:center; margin:10px 0 0}
+  .form-error{display:none; margin-top:12px; padding:10px 12px; border-radius:12px; background:#FBEAEA; color:var(--error); font-size:14px}
+
+  /* نجاح */
+  .done{display:none; text-align:center; padding:12px 4px}
+  .done .check{width:76px; height:76px; border-radius:50%; background:var(--green); display:grid; place-items:center; margin:4px auto 14px}
+  .done h2{font-size:24px}
+  .done p{color:var(--muted); margin:6px 0 18px}
+  .wa{display:inline-flex; align-items:center; gap:8px; text-decoration:none; font-weight:700; color:var(--green);
+      border:1.5px solid var(--green); border-radius:12px; padding:10px 16px}
+
+  footer{margin-top:26px; text-align:center; font-size:13px; color:var(--mint)}
+  footer a{color:#fff; text-decoration:none; font-weight:600}
+  footer .row{display:flex; justify-content:center; flex-wrap:wrap; gap:6px 16px; margin-top:6px}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <img class="logo" src="logo.webp" alt="الملحم للاستقدام · Al Mulhim Recruitment">
+    <span class="pill">الزيارات اليومية · ديسمبر</span>
+  </header>
+
+  <section class="hero">
+    <span class="eyebrow">حجوزات نوفمبر اكتملت 🤍</span>
+    <h1>لا تخلي حجوزات <span class="acc">ديسمبر تفوتك</span></h1>
+    <p class="sub">الزيارات اليومية تسهّل يومك. سجّل بياناتك الحين <b>والأولوية لك</b></p>
+  </section>
+
+  <section class="offer" aria-label="عرض ديسمبر">
+    <div class="vbox"><small>الزيارة 1</small><strong>200</strong><span>ريال</span></div>
+    <div class="vbox"><small>الزيارة 2</small><strong>200</strong><span>ريال</span></div>
+    <div class="vbox free"><span class="tag">هدية</span><small>الزيارة 3</small><strong>مجانًا</strong></div>
+  </section>
+  <p class="offer-line">خذ زيارتين <b>والثالثة علينا</b>: 3 زيارات بـ 400 ريال بس</p>
+
+  <main class="card">
+    <form id="f" novalidate>
+      <h2>سجّل بياناتك</h2>
+      <p class="hint">املأ البيانات واختر أيامك في ديسمبر، وبنتواصل معك أول ما يفتح الحجز.</p>
+
+      <div class="field" data-for="name">
+        <label for="name">الاسم <span class="req">*</span></label>
+        <input id="name" name="name" type="text" autocomplete="name" placeholder="اسمك الكريم">
+        <div class="err">اكتب اسمك</div>
+      </div>
+
+      <div class="field" data-for="phone">
+        <label for="phone">رقم الجوال <span class="req">*</span></label>
+        <input id="phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="05xxxxxxxx" maxlength="14">
+        <div class="err">اكتب رقم جوال صحيح يبدأ بـ 05 (10 أرقام)</div>
+      </div>
+
+      <div class="field" data-for="city">
+        <label for="city">المدينة والحي <span class="req">*</span></label>
+        <input id="city" name="city" type="text" autocomplete="address-level2" placeholder="المدينة - الحي">
+        <div class="err">اكتب المدينة والحي</div>
+      </div>
+
+      <div class="field" data-for="dates">
+        <span class="label" id="cal-label">اختر أيام الزيارة <span class="req">*</span></span>
+        <div class="cal" role="group" aria-labelledby="cal-label">
+          <div class="cal-head"><strong id="cal-title">ديسمبر</strong><span>تقدر تختار أكثر من يوم</span></div>
+          <div class="grid" id="grid"></div>
+          <div class="summary" id="summary" aria-live="polite"></div>
+          <div class="price" id="price" aria-live="polite"></div>
+        </div>
+        <div class="err">اختر يوم واحد على الأقل</div>
+      </div>
+
+      <div class="field">
+        <span class="label">الوقت المناسب لك</span>
+        <div class="seg" role="radiogroup" aria-label="الوقت المناسب لك">
+          <input type="radio" name="time" id="t1" value="الصباح"><label for="t1">الصباح</label>
+          <input type="radio" name="time" id="t2" value="المساء"><label for="t2">المساء</label>
+          <input type="radio" name="time" id="t3" value="أي وقت" checked><label for="t3">أي وقت</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="notes">ملاحظات <span style="color:var(--muted);font-weight:500">(اختياري)</span></label>
+        <textarea id="notes" name="notes" placeholder="أي تفاصيل تحب تضيفها"></textarea>
+      </div>
+
+      <button class="btn" type="submit" id="submit">
+        <span id="btn-text">سجّل الحين</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 6l-6 6 6 6"/><path d="M19 6l-6 6 6 6"/></svg>
+      </button>
+      <div class="form-error" id="form-error" role="alert">صار خطأ في الإرسال. جرّب مرة ثانية أو تواصل معنا واتساب.</div>
+      <p class="privacy">بياناتك تُستخدم فقط للتواصل معك بخصوص الحجز.</p>
+    </form>
+
+    <div class="done" id="done" role="status" aria-live="polite">
+      <div class="check"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+      <h2>تم تسجيلك ✅</h2>
+      <p id="done-text">بنتواصل معك أول ما يفتح حجز الزيارات اليومية لشهر ديسمبر. شكرًا لثقتك بالملحم.</p>
+      <a class="wa" id="wa-done" href="#" target="_blank" rel="noopener">تواصل معنا واتساب</a>
+    </div>
+  </main>
+
+  <footer>
+    الملحم للاستقدام · Al Mulhim Recruitment
+    <div class="row">
+      <a href="tel:0135855510">0135855510</a>
+      <a href="https://www.allmulhim.com" target="_blank" rel="noopener">allmulhim.com</a>
+      <a href="https://www.instagram.com/almulhim_rec/" target="_blank" rel="noopener" dir="ltr">@almulhim_rec</a>
+    </div>
+  </footer>
+</div>
+
+<script>
+(function () {
+  // ===================== الإعدادات =====================
+  var CONFIG = {
+    year: 2026, month: 11,                 // 11 = ديسمبر (الشهور تبدأ من 0)
+    disabledWeekdays: [5],                 // 5 = الجمعة. خليها [] لو الجمعة متاحة
+    blockedDates: [],                      // أيام مقفولة، مثال: [24, 25]
+    whatsapp: "966135855510",
+    form: "https://docs.google.com/forms/d/e/1FAIpQLSczCtYpzx5mEKW_85tqaocZQlDspRh-BNVU-MOdn134sscs3Q/formResponse",
+    entries: {
+      name: "entry.1085441731",
+      phone: "entry.1883475386",
+      city: "entry.1952667569",
+      pkg: "entry.701933026",
+      dates: "entry.360858144",
+      time: "entry.1844206153",
+      notes: "entry.1061313825"
+    },
+    packages: ["زيارة وحدة (200 ريال)", "زيارتين + الثالثة مجانًا (400 ريال)", "أكثر من 3 زيارات"]
+  };
+  // =====================================================
+
+  var DOW = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
+  var DOW_SHORT = ["س", "ح", "ن", "ث", "ر", "خ", "ج"]; // الأسبوع يبدأ السبت
+  var MONTHS = ["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
+  var selected = [];
+  var grid = document.getElementById("grid");
+  var monthName = MONTHS[CONFIG.month];
+  document.getElementById("cal-title").textContent = monthName + " " + CONFIG.year;
+
+  var today = new Date(); today.setHours(0, 0, 0, 0);
+  DOW_SHORT.forEach(function (d) { var el = document.createElement("div"); el.className = "dow"; el.textContent = d; grid.appendChild(el); });
+  var first = new Date(CONFIG.year, CONFIG.month, 1);
+  var offset = (first.getDay() + 1) % 7; // السبت = 0
+  for (var i = 0; i < offset; i++) { var e = document.createElement("span"); e.className = "day empty"; grid.appendChild(e); }
+  var daysInMonth = new Date(CONFIG.year, CONFIG.month + 1, 0).getDate();
+  for (var d = 1; d <= daysInMonth; d++) {
+    var date = new Date(CONFIG.year, CONFIG.month, d);
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "day"; b.textContent = d; b.dataset.day = d;
+    b.setAttribute("aria-pressed", "false");
+    b.setAttribute("aria-label", DOW[date.getDay()] + " " + d + " " + monthName);
+    if (CONFIG.disabledWeekdays.indexOf(date.getDay()) !== -1 || CONFIG.blockedDates.indexOf(d) !== -1 || date < today) {
+      b.disabled = true;
+    }
+    b.addEventListener("click", toggleDay);
+    grid.appendChild(b);
+  }
+
+  function toggleDay(ev) {
+    var btn = ev.currentTarget, day = +btn.dataset.day, idx = selected.indexOf(day);
+    if (idx === -1) { selected.push(day); btn.setAttribute("aria-pressed", "true"); }
+    else { selected.splice(idx, 1); btn.setAttribute("aria-pressed", "false"); }
+    selected.sort(function (a, b) { return a - b; });
+    document.querySelector('[data-for="dates"]').classList.remove("invalid");
+    renderSummary();
+  }
+
+  function dateLabel(day) { return DOW[new Date(CONFIG.year, CONFIG.month, day).getDay()] + " " + day + " " + monthName; }
+
+  function renderSummary() {
+    var s = document.getElementById("summary"), p = document.getElementById("price"), n = selected.length;
+    s.innerHTML = "";
+    if (n) {
+      var t = document.createElement("div"); t.textContent = "اخترت " + (n === 1 ? "يوم واحد" : n === 2 ? "يومين" : n + (n <= 10 ? " أيام" : " يوم")) + ":"; s.appendChild(t);
+      var chips = document.createElement("div"); chips.className = "chips";
+      selected.forEach(function (day) { var c = document.createElement("span"); c.className = "chip"; c.textContent = dateLabel(day); chips.appendChild(c); });
+      s.appendChild(chips);
+    }
+    p.className = "price"; p.textContent = "";
+    if (n === 1) { p.className = "price show"; p.textContent = "زيارة وحدة: 200 ريال"; }
+    else if (n === 2) { p.className = "price show nudge"; p.textContent = "زيارتين: 400 ريال · اختر يوم ثالث والزيارة الثالثة علينا 🎁"; }
+    else if (n === 3) { p.className = "price show"; p.textContent = "3 زيارات بـ 400 ريال بدل 600 · الثالثة مجانًا ✓"; }
+    else if (n > 3) { p.className = "price show"; p.textContent = n + " زيارات: بنأكد معك السعر النهائي عند التواصل"; }
+  }
+
+  function toLatinDigits(s) { return s.replace(/[٠-٩]/g, function (c) { return "٠١٢٣٤٥٦٧٨٩".indexOf(c); }).replace(/[۰-۹]/g, function (c) { return "۰۱۲۳۴۵۶۷۸۹".indexOf(c); }); }
+  function normPhone(v) {
+    v = toLatinDigits(v).replace(/[\s\-()]/g, "");
+    if (/^\+?9665\d{8}$/.test(v)) v = "0" + v.replace(/^\+?966/, "");
+    if (/^5\d{8}$/.test(v)) v = "0" + v;
+    return v;
+  }
+
+  function setInvalid(key, bad) { var f = document.querySelector('[data-for="' + key + '"]'); f.classList.toggle("invalid", bad); return bad; }
+
+  var form = document.getElementById("f");
+  ["name", "phone", "city"].forEach(function (k) { document.getElementById(k).addEventListener("input", function () { setInvalid(k, false); }); });
+
+  form.addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    var name = document.getElementById("name").value.trim();
+    var phone = normPhone(document.getElementById("phone").value);
+    var city = document.getElementById("city").value.trim();
+    var bad = false, firstBad = null;
+    function check(key, cond, el) { if (setInvalid(key, cond)) { bad = true; firstBad = firstBad || el; } }
+    check("name", name.length < 2, document.getElementById("name"));
+    check("phone", !/^05\d{8}$/.test(phone), document.getElementById("phone"));
+    check("city", city.length < 2, document.getElementById("city"));
+    check("dates", selected.length === 0, grid);
+    if (bad) { firstBad.scrollIntoView({ behavior: "smooth", block: "center" }); if (firstBad.focus) firstBad.focus({ preventScroll: true }); return; }
+
+    var n = selected.length;
+    var pkg = n === 1 ? CONFIG.packages[0] : n <= 3 ? CONFIG.packages[1] : CONFIG.packages[2];
+    var time = (form.querySelector('input[name="time"]:checked') || {}).value || "";
+    var data = new URLSearchParams();
+    data.append(CONFIG.entries.name, name);
+    data.append(CONFIG.entries.phone, phone);
+    data.append(CONFIG.entries.city, city);
+    data.append(CONFIG.entries.pkg, pkg);
+    data.append(CONFIG.entries.dates, selected.map(dateLabel).join("، "));
+    if (time) data.append(CONFIG.entries.time, time);
+    data.append(CONFIG.entries.notes, document.getElementById("notes").value.trim());
+
+    var btn = document.getElementById("submit"), err = document.getElementById("form-error");
+    btn.disabled = true; document.getElementById("btn-text").textContent = "جاري الإرسال…"; err.style.display = "none";
+
+    fetch(CONFIG.form, { method: "POST", mode: "no-cors", body: data })
+      .then(function () {
+        form.style.display = "none";
+        var done = document.getElementById("done"); done.style.display = "block";
+        document.getElementById("done-text").textContent = "أيامك: " + selected.map(dateLabel).join("، ") + ". بنتواصل معك أول ما يفتح حجز ديسمبر. شكرًا لثقتك بالملحم.";
+        done.scrollIntoView({ behavior: "smooth", block: "center" });
+      })
+      .catch(function () {
+        err.style.display = "block";
+        btn.disabled = false; document.getElementById("btn-text").textContent = "سجّل الحين";
+      });
+  });
+
+  var waMsg = encodeURIComponent("السلام عليكم، سجّلت في التسجيل المسبق لزيارات ديسمبر وأبي أستفسر.");
+  document.getElementById("wa-done").href = "https://wa.me/" + CONFIG.whatsapp + "?text=" + waMsg;
+  var errEl = document.getElementById("form-error");
+  errEl.innerHTML = 'صار خطأ في الإرسال. جرّب مرة ثانية أو <a href="https://wa.me/' + CONFIG.whatsapp + '?text=' + waMsg + '" target="_blank" rel="noopener" style="color:inherit;font-weight:700">تواصل معنا واتساب</a>.';
+})();
+</script>
+</body>
+</html>
