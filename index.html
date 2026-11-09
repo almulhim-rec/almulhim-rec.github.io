@@ -13,52 +13,73 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>document.documentElement.classList.add("js");</script>
 <style>
   :root{
     --green:#105B37; --green-dark:#06301B; --green-mid:#17714A; --green-soft:#E6F1EA;
     --orange:#DD6927; --orange-hi:#F07A33; --beige:#F3DDBC; --mint:#CFE6D8;
     --ink:#14261C; --muted:#5E7468; --line:#DCE6E0; --white:#fff; --error:#C0392B;
     --radius:20px;
+    --ease:cubic-bezier(.2,.8,.2,1);
+    --spring:cubic-bezier(.34,1.56,.64,1);
   }
   *{box-sizing:border-box}
   html{-webkit-text-size-adjust:100%}
   body{
-    margin:0; min-height:100vh; color:var(--white);
+    margin:0; min-height:100vh; color:var(--white); overflow-x:hidden;
     font-family:"IBM Plex Sans Arabic",system-ui,sans-serif; line-height:1.6;
     background:var(--green-dark);
     background-image:
-      linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),
-      linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px),
+      linear-gradient(rgba(255,255,255,.055) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,.055) 1px,transparent 1px),
       radial-gradient(circle at 50% 18%, #1f8556 0, var(--green-mid) 28%, #0d4f31 60%, var(--green-dark) 100%);
     background-size:48px 48px,48px 48px,100% 100%;
     background-attachment:fixed;
   }
-  .wrap{max-width:520px; margin:0 auto; padding:20px 16px 40px}
+  /* إضاءة متحركة في الخلفية */
+  .bg-glow{position:fixed; inset:-20%; pointer-events:none; z-index:0; filter:blur(70px); opacity:.55}
+  .bg-glow::before,.bg-glow::after{content:""; position:absolute; border-radius:50%}
+  .bg-glow::before{width:55vmax; height:55vmax; left:10%; top:0; background:radial-gradient(circle,#2E9A66 0,transparent 65%); animation:drift1 16s ease-in-out infinite alternate}
+  .bg-glow::after{width:45vmax; height:45vmax; right:0; top:35%; background:radial-gradient(circle,rgba(240,122,51,.35) 0,transparent 65%); animation:drift2 20s ease-in-out infinite alternate}
+  @keyframes drift1{to{transform:translate(18%,22%) scale(1.15)}}
+  @keyframes drift2{to{transform:translate(-22%,-12%) scale(.9)}}
+
+  .wrap{position:relative; z-index:1; max-width:520px; margin:0 auto; padding:20px 16px 40px}
   header{display:flex; align-items:center; justify-content:space-between; gap:12px}
   .logo{height:68px; width:auto; display:block}
-  .pill{font-size:13px; font-weight:600; padding:6px 14px; border-radius:999px;
-        background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.28); white-space:nowrap}
+  .pill{display:inline-flex; align-items:center; gap:7px; font-size:13px; font-weight:600; padding:6px 14px; border-radius:999px;
+        background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.28); white-space:nowrap; backdrop-filter:blur(6px)}
+  .dot{width:8px; height:8px; border-radius:50%; background:#5BE29A; box-shadow:0 0 0 0 rgba(91,226,154,.7); animation:ping 1.8s ease-out infinite}
+  @keyframes ping{0%{box-shadow:0 0 0 0 rgba(91,226,154,.7)}100%{box-shadow:0 0 0 9px rgba(91,226,154,0)}}
+
   .hero{text-align:center; margin:34px 0 22px}
   .eyebrow{display:inline-block; font-size:14px; font-weight:600; color:var(--beige); margin-bottom:6px}
-  h1{font-size:clamp(30px,9vw,42px); line-height:1.25; margin:0; font-weight:700}
+  h1{font-size:clamp(30px,9vw,42px); line-height:1.3; margin:0; font-weight:700}
   h1 .acc{color:var(--orange-hi)}
+  /* كل كلمة بتطلع لفوق من ورا ماسك (نفس حركة الفيديو) */
+  .w{display:inline-block; overflow:hidden; vertical-align:top; padding:0 .04em .12em}
+  .w > span{display:inline-block}
   .sub{margin:10px 0 0; font-size:17px; color:var(--mint); font-weight:500}
   .sub b{color:var(--beige)}
 
   /* العرض */
-  .offer{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:26px 0 8px}
-  .vbox{position:relative; text-align:center; padding:12px 6px 10px; border-radius:16px;
-        background:rgba(255,255,255,.10); border:1px solid rgba(255,255,255,.28)}
+  .offer{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:28px 0 8px}
+  .vbox{position:relative; text-align:center; padding:12px 6px 10px; border-radius:16px; min-height:104px;
+        background:rgba(255,255,255,.10); border:1px solid rgba(255,255,255,.28); backdrop-filter:blur(6px)}
   .vbox small{display:block; font-size:12px; color:var(--mint); font-weight:500}
   .vbox strong{display:block; font-size:28px; line-height:1.3}
   .vbox span{font-size:12px; color:var(--mint)}
-  .vbox.free{background:var(--orange); border-color:var(--orange)}
-  .vbox.free small,.vbox.free span{color:#fff}
-  .vbox.free .tag{color:var(--green)}
-  .vbox.free strong{font-size:24px; line-height:1.55}
+  .swap{position:relative; height:58px}
+  .swap > div{position:absolute; inset:0}
+  .was .strike{position:absolute; top:22px; left:18%; right:18%; height:4px; border-radius:2px; background:var(--orange-hi); transform:rotate(-8deg) scaleX(0); transform-origin:right}
+  .now{display:flex; align-items:center; justify-content:center}
+  .now strong{font-size:25px}
   .tag{position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:#fff; color:var(--green);
-       font-size:12px; font-weight:700; padding:1px 12px; border-radius:999px}
-  .offer-line{text-align:center; margin:6px 0 26px; font-size:16px; font-weight:600}
+       font-size:12px; font-weight:700; padding:1px 12px; border-radius:999px; box-shadow:0 4px 12px rgba(0,0,0,.18)}
+  .vbox .tag{color:var(--green); font-size:12px}
+  .vbox.free.on{background:var(--orange); border-color:var(--orange)}
+  .vbox.free.on small{color:#fff}
+  .offer-line{text-align:center; margin:8px 0 26px; font-size:16px; font-weight:600}
   .offer-line b{color:var(--beige)}
 
   /* الكارت */
@@ -71,13 +92,16 @@
   .req{color:var(--orange)}
   input[type=text],input[type=tel],textarea{
     width:100%; font:inherit; font-size:16px; color:var(--ink); background:#F7FAF8;
-    border:1.5px solid var(--line); border-radius:12px; padding:12px 14px; outline:none; transition:border-color .15s, box-shadow .15s}
-  input:focus,textarea:focus{border-color:var(--green); box-shadow:0 0 0 3px rgba(16,91,55,.15); background:#fff}
+    border:1.5px solid var(--line); border-radius:12px; padding:12px 14px; outline:none;
+    transition:border-color .2s, box-shadow .2s, background .2s, transform .2s var(--ease)}
+  input:focus,textarea:focus{border-color:var(--green); box-shadow:0 0 0 4px rgba(16,91,55,.14); background:#fff; transform:translateY(-1px)}
   input[type=tel]{direction:ltr; text-align:right}
   textarea{min-height:84px; resize:vertical}
   .err{display:none; color:var(--error); font-size:13px; margin-top:4px}
-  .field.invalid .err{display:block}
+  .field.invalid .err{display:block; animation:up .25s var(--ease)}
   .field.invalid input,.field.invalid .cal{border-color:var(--error)}
+  .field.invalid.shake input,.field.invalid.shake .cal{animation:shake .4s}
+  @keyframes shake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
 
   /* التقويم */
   .cal{border:1.5px solid var(--line); border-radius:16px; padding:12px; background:#F7FAF8}
@@ -87,97 +111,169 @@
   .grid{display:grid; grid-template-columns:repeat(7,1fr); gap:5px}
   .dow{text-align:center; font-size:12px; color:var(--muted); font-weight:600; padding:2px 0}
   .day{aspect-ratio:1; border:1px solid var(--line); background:#fff; border-radius:10px; font:inherit;
-       font-size:15px; font-weight:600; color:var(--ink); cursor:pointer; padding:0; transition:transform .1s, background .15s}
-  .day:hover:not(:disabled){border-color:var(--green)}
-  .day:active:not(:disabled){transform:scale(.94)}
-  .day[aria-pressed=true]{background:var(--orange); border-color:var(--orange); color:#fff}
+       font-size:15px; font-weight:600; color:var(--ink); cursor:pointer; padding:0;
+       transition:background .2s, border-color .2s, color .2s, transform .15s var(--ease), box-shadow .2s}
+  .day:hover:not(:disabled){border-color:var(--green); transform:translateY(-2px); box-shadow:0 6px 14px rgba(16,91,55,.12)}
+  .day:active:not(:disabled){transform:scale(.92)}
+  .day[aria-pressed=true]{background:var(--orange); border-color:var(--orange); color:#fff; box-shadow:0 6px 16px rgba(221,105,39,.35); animation:sel .35s var(--spring)}
+  @keyframes sel{0%{transform:scale(.8)}100%{transform:scale(1)}}
   .day:disabled{background:transparent; border-color:transparent; color:#B7C4BC; cursor:not-allowed; text-decoration:line-through}
   .day.empty{visibility:hidden}
   .day:focus-visible{outline:3px solid rgba(16,91,55,.35); outline-offset:1px}
   .summary{margin-top:10px; font-size:14px; min-height:22px}
   .chips{display:flex; flex-wrap:wrap; gap:6px; margin-top:8px}
-  .chip{font-size:12px; background:var(--green-soft); color:var(--green); border-radius:999px; padding:3px 10px; font-weight:600}
+  .chip{font-size:12px; background:var(--green-soft); color:var(--green); border-radius:999px; padding:3px 10px; font-weight:600; animation:pop .3s var(--spring) both}
   .price{margin-top:10px; padding:10px 12px; border-radius:12px; background:var(--green-soft); color:var(--green); font-weight:600; font-size:14px; display:none}
-  .price.show{display:block}
+  .price.show{display:block; animation:up .35s var(--ease)}
   .price.nudge{background:#FDEFE6; color:#A3461A}
 
   /* اختيار الوقت */
   .seg{display:grid; grid-template-columns:repeat(3,1fr); gap:8px}
   .seg input{position:absolute; opacity:0; pointer-events:none}
   .seg label{margin:0; text-align:center; padding:10px 6px; border:1.5px solid var(--line); border-radius:12px; cursor:pointer;
-             font-weight:600; font-size:15px; background:#F7FAF8}
+             font-weight:600; font-size:15px; background:#F7FAF8; transition:background .2s, color .2s, border-color .2s, transform .15s}
+  .seg label:active{transform:scale(.96)}
   .seg input:checked + label{border-color:var(--green); background:var(--green); color:#fff}
   .seg input:focus-visible + label{box-shadow:0 0 0 3px rgba(16,91,55,.25)}
 
-  .btn{width:100%; border:0; cursor:pointer; font:inherit; font-size:19px; font-weight:700; color:#fff; background:var(--orange);
+  /* الزرار */
+  .btn{position:relative; overflow:hidden; width:100%; border:0; cursor:pointer; font:inherit; font-size:19px; font-weight:700; color:#fff; background:var(--orange);
        border-radius:14px; padding:14px; display:flex; align-items:center; justify-content:center; gap:10px;
-       box-shadow:0 10px 24px rgba(221,105,39,.35); transition:transform .1s, filter .15s}
-  .btn:hover{filter:brightness(1.05)} .btn:active{transform:scale(.98)}
-  .btn[disabled]{opacity:.7; cursor:progress}
-  .btn svg{width:22px; height:22px}
+       box-shadow:0 10px 24px rgba(221,105,39,.35); transition:transform .15s var(--ease), box-shadow .2s, filter .2s}
+  .btn::after{content:""; position:absolute; top:0; bottom:0; width:40%; left:-60%;
+       background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent); transform:skewX(-20deg); animation:shine 3.2s ease-in-out 2.5s infinite}
+  @keyframes shine{0%{left:-60%}45%,100%{left:130%}}
+  .btn:hover{filter:brightness(1.06); box-shadow:0 14px 30px rgba(221,105,39,.45); transform:translateY(-2px)}
+  .btn:active{transform:scale(.98)}
+  .btn[disabled]{opacity:.8; cursor:progress}
+  .btn svg{width:22px; height:22px; animation:nudge 1.4s ease-in-out infinite}
+  @keyframes nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(-6px)}}
+  .spinner{display:none; width:20px; height:20px; border:3px solid rgba(255,255,255,.4); border-top-color:#fff; border-radius:50%; animation:spin .8s linear infinite}
+  .btn.loading .spinner{display:block} .btn.loading svg{display:none}
+  @keyframes spin{to{transform:rotate(360deg)}}
   .privacy{font-size:12px; color:var(--muted); text-align:center; margin:10px 0 0}
   .form-error{display:none; margin-top:12px; padding:10px 12px; border-radius:12px; background:#FBEAEA; color:var(--error); font-size:14px}
 
   /* نجاح */
   .done{display:none; text-align:center; padding:12px 4px}
-  .done .check{width:76px; height:76px; border-radius:50%; background:var(--green); display:grid; place-items:center; margin:4px auto 14px}
+  .done.show{display:block}
+  .done .check{width:80px; height:80px; border-radius:50%; background:var(--green); display:grid; place-items:center; margin:4px auto 14px; box-shadow:0 0 0 0 rgba(16,91,55,.4)}
+  .done.show .check{animation:pop .55s var(--spring) both, ring 1.2s .4s ease-out}
+  .done .check path{stroke-dasharray:24; stroke-dashoffset:24}
+  .done.show .check path{animation:draw .45s .35s var(--ease) forwards}
+  @keyframes draw{to{stroke-dashoffset:0}}
+  @keyframes ring{0%{box-shadow:0 0 0 0 rgba(16,91,55,.45)}100%{box-shadow:0 0 0 22px rgba(16,91,55,0)}}
   .done h2{font-size:24px}
   .done p{color:var(--muted); margin:6px 0 18px}
+  .done.show h2,.done.show p,.done.show .wa{animation:up .5s var(--ease) both}
+  .done.show h2{animation-delay:.45s} .done.show p{animation-delay:.55s} .done.show .wa{animation-delay:.65s}
   .wa{display:inline-flex; align-items:center; gap:8px; text-decoration:none; font-weight:700; color:var(--green);
-      border:1.5px solid var(--green); border-radius:12px; padding:10px 16px}
+      border:1.5px solid var(--green); border-radius:12px; padding:10px 16px; transition:background .2s, color .2s}
+  .wa:hover{background:var(--green); color:#fff}
+  .confetti{position:fixed; inset:0; pointer-events:none; z-index:5; overflow:hidden}
+  .confetti i{position:absolute; top:-12px; width:8px; height:12px; border-radius:2px; animation:fall linear forwards}
+  @keyframes fall{to{transform:translate(var(--x),110vh) rotate(var(--r)); opacity:.9}}
 
   footer{margin-top:26px; text-align:center; font-size:13px; color:var(--mint)}
   footer a{color:#fff; text-decoration:none; font-weight:600}
   footer .row{display:flex; justify-content:center; flex-wrap:wrap; gap:6px 16px; margin-top:6px}
-  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+  /* ====== حركات الدخول ====== */
+  @keyframes up{from{opacity:0; transform:translateY(18px)}to{opacity:1; transform:none}}
+  @keyframes down{from{opacity:0; transform:translateY(-14px)}to{opacity:1; transform:none}}
+  @keyframes rise{from{transform:translateY(115%)}to{transform:none}}
+  @keyframes pop{0%{opacity:0; transform:scale(.8)}100%{opacity:1; transform:scale(1)}}
+  @keyframes fadeOut{to{opacity:0; transform:scale(.85)}}
+  @keyframes drawX{to{transform:rotate(-8deg) scaleX(1)}}
+  @keyframes popIn{0%{opacity:0; transform:scale(.5)}100%{opacity:1; transform:scale(1)}}
+  @keyframes tagIn{0%{opacity:0; transform:translate(-50%,8px) scale(.6)}100%{opacity:1; transform:translate(-50%,0) scale(1)}}
+
+  .js .a-down{animation:down .6s var(--ease) both; animation-delay:var(--d,0s)}
+  .js .a-up{animation:up .7s var(--ease) both; animation-delay:var(--d,0s)}
+  .js .w > span{animation:rise .75s var(--ease) both; animation-delay:calc(.35s + var(--i) * .08s)}
+  .js .vbox{animation:pop .55s var(--spring) both; animation-delay:calc(1.05s + var(--i) * .12s)}
+  .js .free .was .strike{animation:drawX .35s var(--ease) 1.9s forwards}
+  .js .free .was{animation:fadeOut .3s ease 2.3s forwards}
+  .js .free .now{opacity:0; animation:popIn .5s var(--spring) 2.45s forwards}
+  .js .free .tag{opacity:0; animation:tagIn .45s var(--spring) 2.7s forwards}
+  .js .vbox.free{transition:background .35s ease, border-color .35s ease}
+  .no-js-free .free .was{display:none}
+
+  /* بيظهر لما ينزل للعنصر */
+  .js .reveal{opacity:0; transform:translateY(28px); transition:opacity .7s var(--ease), transform .7s var(--ease); transition-delay:var(--d,0s)}
+  .js .reveal.in{opacity:1; transform:none}
+  .js .grid .day{opacity:0; transform:scale(.7)}
+  .js .cal.in .grid .day{opacity:1; transform:none; transition:opacity .35s var(--ease), transform .4s var(--spring), background .2s, border-color .2s, color .2s, box-shadow .2s; transition-delay:calc(var(--i) * 14ms), calc(var(--i) * 14ms), 0s, 0s, 0s, 0s}
+  .js .cal.in .grid .day.settled{transition-delay:0s}
+
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation:none!important; transition:none!important}
+    .js .reveal,.js .grid .day{opacity:1!important; transform:none!important}
+    .js .free .was{display:none} .js .free .now,.js .free .tag{opacity:1}
+    .done .check path{stroke-dashoffset:0}
+  }
 </style>
 </head>
 <body>
+<div class="bg-glow" aria-hidden="true"></div>
 <div class="wrap">
-  <header>
+  <header class="a-down">
     <img class="logo" src="logo.webp" alt="الملحم للاستقدام · Al Mulhim Recruitment">
-    <span class="pill">الزيارات اليومية · ديسمبر</span>
+    <span class="pill"><span class="dot" aria-hidden="true"></span>الزيارات اليومية · ديسمبر</span>
   </header>
 
   <section class="hero">
-    <span class="eyebrow">حجوزات نوفمبر اكتملت 🤍</span>
-    <h1>لا تخلي حجوزات <span class="acc">ديسمبر تفوتك</span></h1>
-    <p class="sub">الزيارات اليومية تسهّل يومك. سجّل بياناتك الحين <b>والأولوية لك</b></p>
+    <span class="eyebrow a-up" style="--d:.2s">حجوزات نوفمبر اكتملت 🤍</span>
+    <h1>
+      <span class="w"><span style="--i:0">لا</span></span>
+      <span class="w"><span style="--i:1">تخلي</span></span>
+      <span class="w"><span style="--i:2">حجوزات</span></span>
+      <span class="w acc"><span style="--i:3">ديسمبر</span></span>
+      <span class="w acc"><span style="--i:4">تفوتك</span></span>
+    </h1>
+    <p class="sub a-up" style="--d:.85s">الزيارات اليومية تسهّل يومك. سجّل بياناتك الحين <b>والأولوية لك</b></p>
   </section>
 
-  <section class="offer" aria-label="عرض ديسمبر">
-    <div class="vbox"><small>الزيارة 1</small><strong>200</strong><span>ريال</span></div>
-    <div class="vbox"><small>الزيارة 2</small><strong>200</strong><span>ريال</span></div>
-    <div class="vbox free"><span class="tag">هدية</span><small>الزيارة 3</small><strong>مجانًا</strong></div>
+  <section class="offer" aria-label="عرض ديسمبر: الزيارة 200 ريال، والثالثة مجانًا">
+    <div class="vbox" style="--i:0"><small>الزيارة 1</small><div class="swap"><div><strong>200</strong><span>ريال</span></div></div></div>
+    <div class="vbox" style="--i:1"><small>الزيارة 2</small><div class="swap"><div><strong>200</strong><span>ريال</span></div></div></div>
+    <div class="vbox free" style="--i:2" id="free">
+      <span class="tag">هدية</span>
+      <small>الزيارة 3</small>
+      <div class="swap">
+        <div class="was" aria-hidden="true"><strong>200</strong><span>ريال</span><i class="strike"></i></div>
+        <div class="now"><strong>مجانًا</strong></div>
+      </div>
+    </div>
   </section>
-  <p class="offer-line">خذ زيارتين <b>والثالثة علينا</b>: 3 زيارات بـ 400 ريال بس</p>
+  <p class="offer-line a-up" style="--d:2.9s">خذ زيارتين <b>والثالثة علينا</b>: 3 زيارات بـ 400 ريال بس</p>
 
-  <main class="card">
+  <main class="card reveal">
     <form id="f" novalidate>
       <h2>سجّل بياناتك</h2>
       <p class="hint">املأ البيانات واختر أيامك في ديسمبر، وبنتواصل معك أول ما يفتح الحجز.</p>
 
-      <div class="field" data-for="name">
+      <div class="field reveal" data-for="name">
         <label for="name">الاسم <span class="req">*</span></label>
         <input id="name" name="name" type="text" autocomplete="name" placeholder="اسمك الكريم">
         <div class="err">اكتب اسمك</div>
       </div>
 
-      <div class="field" data-for="phone">
+      <div class="field reveal" data-for="phone">
         <label for="phone">رقم الجوال <span class="req">*</span></label>
         <input id="phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel" placeholder="05xxxxxxxx" maxlength="14">
         <div class="err">اكتب رقم جوال صحيح يبدأ بـ 05 (10 أرقام)</div>
       </div>
 
-      <div class="field" data-for="city">
+      <div class="field reveal" data-for="city">
         <label for="city">المدينة والحي <span class="req">*</span></label>
         <input id="city" name="city" type="text" autocomplete="address-level2" placeholder="المدينة - الحي">
         <div class="err">اكتب المدينة والحي</div>
       </div>
 
-      <div class="field" data-for="dates">
+      <div class="field reveal" data-for="dates">
         <span class="label" id="cal-label">اختر أيام الزيارة <span class="req">*</span></span>
-        <div class="cal" role="group" aria-labelledby="cal-label">
+        <div class="cal" id="cal" role="group" aria-labelledby="cal-label">
           <div class="cal-head"><strong id="cal-title">ديسمبر</strong><span>تقدر تختار أكثر من يوم</span></div>
           <div class="grid" id="grid"></div>
           <div class="summary" id="summary" aria-live="polite"></div>
@@ -186,7 +282,7 @@
         <div class="err">اختر يوم واحد على الأقل</div>
       </div>
 
-      <div class="field">
+      <div class="field reveal">
         <span class="label">الوقت المناسب لك</span>
         <div class="seg" role="radiogroup" aria-label="الوقت المناسب لك">
           <input type="radio" name="time" id="t1" value="الصباح"><label for="t1">الصباح</label>
@@ -195,15 +291,18 @@
         </div>
       </div>
 
-      <div class="field">
+      <div class="field reveal">
         <label for="notes">ملاحظات <span style="color:var(--muted);font-weight:500">(اختياري)</span></label>
         <textarea id="notes" name="notes" placeholder="أي تفاصيل تحب تضيفها"></textarea>
       </div>
 
-      <button class="btn" type="submit" id="submit">
-        <span id="btn-text">سجّل الحين</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 6l-6 6 6 6"/><path d="M19 6l-6 6 6 6"/></svg>
-      </button>
+      <div class="reveal">
+        <button class="btn" type="submit" id="submit">
+          <span id="btn-text">سجّل الحين</span>
+          <span class="spinner" aria-hidden="true"></span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 6l-6 6 6 6"/><path d="M19 6l-6 6 6 6"/></svg>
+        </button>
+      </div>
       <div class="form-error" id="form-error" role="alert">صار خطأ في الإرسال. جرّب مرة ثانية أو تواصل معنا واتساب.</div>
       <p class="privacy">بياناتك تُستخدم فقط للتواصل معك بخصوص الحجز.</p>
     </form>
@@ -216,7 +315,7 @@
     </div>
   </main>
 
-  <footer>
+  <footer class="reveal">
     الملحم للاستقدام · Al Mulhim Recruitment
     <div class="row">
       <a href="tel:0135855510">0135855510</a>
@@ -248,6 +347,12 @@
   };
   // =====================================================
 
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // الزيارة التالتة تقلب برتقالي في نفس لحظة ظهور «مجانًا»
+  var free = document.getElementById("free");
+  if (reduce) free.classList.add("on"); else setTimeout(function () { free.classList.add("on"); }, 2350);
+
   var DOW = ["الأحد", "الاثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت"];
   var DOW_SHORT = ["س", "ح", "ن", "ث", "ر", "خ", "ج"]; // الأسبوع يبدأ السبت
   var MONTHS = ["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
@@ -266,6 +371,7 @@
     var date = new Date(CONFIG.year, CONFIG.month, d);
     var b = document.createElement("button");
     b.type = "button"; b.className = "day"; b.textContent = d; b.dataset.day = d;
+    b.style.setProperty("--i", offset + d);
     b.setAttribute("aria-pressed", "false");
     b.setAttribute("aria-label", DOW[date.getDay()] + " " + d + " " + monthName);
     if (CONFIG.disabledWeekdays.indexOf(date.getDay()) !== -1 || CONFIG.blockedDates.indexOf(d) !== -1 || date < today) {
@@ -274,6 +380,24 @@
     b.addEventListener("click", toggleDay);
     grid.appendChild(b);
   }
+
+  // ظهور العناصر وقت النزول ليها
+  var revealEls = [].slice.call(document.querySelectorAll(".reveal, #cal"));
+  function revealAll() { revealEls.forEach(function (el) { el.classList.add("in"); }); }
+  if (reduce || !("IntersectionObserver" in window)) { revealAll(); }
+  else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) {
+          en.target.classList.add("in"); io.unobserve(en.target);
+          if (en.target.id === "cal") setTimeout(function () { [].forEach.call(grid.querySelectorAll(".day"), function (x) { x.classList.add("settled"); }); }, 900);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+    revealEls.forEach(function (el) { io.observe(el); });
+  }
+  // تأخير متدرّج للخانات جوه الكارت
+  [].forEach.call(document.querySelectorAll(".card .reveal"), function (el, k) { el.style.setProperty("--d", (k * 0.06) + "s"); });
 
   function toggleDay(ev) {
     var btn = ev.currentTarget, day = +btn.dataset.day, idx = selected.indexOf(day);
@@ -286,6 +410,7 @@
 
   function dateLabel(day) { return DOW[new Date(CONFIG.year, CONFIG.month, day).getDay()] + " " + day + " " + monthName; }
 
+  var lastPriceText = "";
   function renderSummary() {
     var s = document.getElementById("summary"), p = document.getElementById("price"), n = selected.length;
     s.innerHTML = "";
@@ -295,11 +420,13 @@
       selected.forEach(function (day) { var c = document.createElement("span"); c.className = "chip"; c.textContent = dateLabel(day); chips.appendChild(c); });
       s.appendChild(chips);
     }
-    p.className = "price"; p.textContent = "";
-    if (n === 1) { p.className = "price show"; p.textContent = "زيارة وحدة: 200 ريال"; }
-    else if (n === 2) { p.className = "price show nudge"; p.textContent = "زيارتين: 400 ريال · اختر يوم ثالث والزيارة الثالثة علينا 🎁"; }
-    else if (n === 3) { p.className = "price show"; p.textContent = "3 زيارات بـ 400 ريال بدل 600 · الثالثة مجانًا ✓"; }
-    else if (n > 3) { p.className = "price show"; p.textContent = n + " زيارات: بنأكد معك السعر النهائي عند التواصل"; }
+    var cls = "price", txt = "";
+    if (n === 1) { cls = "price show"; txt = "زيارة وحدة: 200 ريال"; }
+    else if (n === 2) { cls = "price show nudge"; txt = "زيارتين: 400 ريال · اختر يوم ثالث والزيارة الثالثة علينا 🎁"; }
+    else if (n === 3) { cls = "price show"; txt = "3 زيارات بـ 400 ريال بدل 600 · الثالثة مجانًا ✓"; }
+    else if (n > 3) { cls = "price show"; txt = n + " زيارات: بنأكد معك السعر النهائي عند التواصل"; }
+    if (txt !== lastPriceText) { p.className = "price"; void p.offsetWidth; } // إعادة تشغيل الحركة لما الرسالة تتغير
+    p.className = cls; p.textContent = txt; lastPriceText = txt;
   }
 
   function toLatinDigits(s) { return s.replace(/[٠-٩]/g, function (c) { return "٠١٢٣٤٥٦٧٨٩".indexOf(c); }).replace(/[۰-۹]/g, function (c) { return "۰۱۲۳۴۵۶۷۸۹".indexOf(c); }); }
@@ -310,10 +437,33 @@
     return v;
   }
 
-  function setInvalid(key, bad) { var f = document.querySelector('[data-for="' + key + '"]'); f.classList.toggle("invalid", bad); return bad; }
+  function setInvalid(key, bad) {
+    var f = document.querySelector('[data-for="' + key + '"]');
+    f.classList.toggle("invalid", bad);
+    if (bad) { f.classList.remove("shake"); void f.offsetWidth; f.classList.add("shake"); }
+    return bad;
+  }
+
+  function confetti() {
+    if (reduce) return;
+    var box = document.createElement("div"); box.className = "confetti"; box.setAttribute("aria-hidden", "true");
+    var colors = ["#DD6927", "#F07A33", "#F3DDBC", "#5BE29A", "#ffffff", "#2E9A66"];
+    for (var k = 0; k < 70; k++) {
+      var c = document.createElement("i");
+      c.style.left = Math.random() * 100 + "vw";
+      c.style.background = colors[k % colors.length];
+      c.style.setProperty("--x", (Math.random() * 160 - 80) + "px");
+      c.style.setProperty("--r", (Math.random() * 720 - 360) + "deg");
+      c.style.animationDuration = (1.6 + Math.random() * 1.6) + "s";
+      c.style.animationDelay = (Math.random() * 0.4) + "s";
+      box.appendChild(c);
+    }
+    document.body.appendChild(box);
+    setTimeout(function () { box.remove(); }, 4000);
+  }
 
   var form = document.getElementById("f");
-  ["name", "phone", "city"].forEach(function (k) { document.getElementById(k).addEventListener("input", function () { setInvalid(k, false); }); });
+  ["name", "phone", "city"].forEach(function (k) { document.getElementById(k).addEventListener("input", function () { document.querySelector('[data-for="' + k + '"]').classList.remove("invalid"); }); });
 
   form.addEventListener("submit", function (ev) {
     ev.preventDefault();
@@ -341,25 +491,26 @@
     data.append(CONFIG.entries.notes, document.getElementById("notes").value.trim());
 
     var btn = document.getElementById("submit"), err = document.getElementById("form-error");
-    btn.disabled = true; document.getElementById("btn-text").textContent = "جاري الإرسال…"; err.style.display = "none";
+    btn.disabled = true; btn.classList.add("loading"); document.getElementById("btn-text").textContent = "جاري الإرسال…"; err.style.display = "none";
 
     fetch(CONFIG.form, { method: "POST", mode: "no-cors", body: data })
       .then(function () {
         form.style.display = "none";
-        var done = document.getElementById("done"); done.style.display = "block";
+        var done = document.getElementById("done");
         document.getElementById("done-text").textContent = "أيامك: " + selected.map(dateLabel).join("، ") + ". بنتواصل معك أول ما يفتح حجز ديسمبر. شكرًا لثقتك بالملحم.";
+        done.classList.add("show");
         done.scrollIntoView({ behavior: "smooth", block: "center" });
+        confetti();
       })
       .catch(function () {
         err.style.display = "block";
-        btn.disabled = false; document.getElementById("btn-text").textContent = "سجّل الحين";
+        btn.disabled = false; btn.classList.remove("loading"); document.getElementById("btn-text").textContent = "سجّل الحين";
       });
   });
 
   var waMsg = encodeURIComponent("السلام عليكم، سجّلت في التسجيل المسبق لزيارات ديسمبر وأبي أستفسر.");
   document.getElementById("wa-done").href = "https://wa.me/" + CONFIG.whatsapp + "?text=" + waMsg;
-  var errEl = document.getElementById("form-error");
-  errEl.innerHTML = 'صار خطأ في الإرسال. جرّب مرة ثانية أو <a href="https://wa.me/' + CONFIG.whatsapp + '?text=' + waMsg + '" target="_blank" rel="noopener" style="color:inherit;font-weight:700">تواصل معنا واتساب</a>.';
+  document.getElementById("form-error").innerHTML = 'صار خطأ في الإرسال. جرّب مرة ثانية أو <a href="https://wa.me/' + CONFIG.whatsapp + '?text=' + waMsg + '" target="_blank" rel="noopener" style="color:inherit;font-weight:700">تواصل معنا واتساب</a>.';
 })();
 </script>
 </body>
