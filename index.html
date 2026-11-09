@@ -62,6 +62,11 @@
   .sub{margin:10px 0 0; font-size:17px; color:var(--mint); font-weight:500}
   .sub b{color:var(--beige)}
 
+  .loc{display:inline-flex; align-items:center; gap:6px; margin:14px 0 0; padding:6px 14px; border-radius:999px;
+       background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.28); font-size:14px; font-weight:600; color:#fff}
+  .loc svg{width:16px; height:16px; color:var(--orange-hi)}
+  .loc-note{display:inline-block; margin-inline-start:6px; font-size:12px; font-weight:600; color:var(--green); background:var(--green-soft); padding:1px 8px; border-radius:999px; vertical-align:middle}
+
   /* العرض */
   .offer{display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin:28px 0 8px}
   .vbox{position:relative; text-align:center; padding:12px 6px 10px; border-radius:16px; min-height:104px;
@@ -232,6 +237,7 @@
       <span class="w acc"><span style="--i:4">تفوتك</span></span>
     </h1>
     <p class="sub a-up" style="--d:.85s">الزيارات اليومية تسهّل يومك. سجّل بياناتك الحين <b>والأولوية لك</b></p>
+    <p class="loc a-up" style="--d:1s"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>الزيارات متاحة داخل الأحساء</p>
   </section>
 
   <section class="offer" aria-label="عرض ديسمبر: الزيارة 200 ريال، والثالثة مجانًا">
@@ -266,9 +272,9 @@
       </div>
 
       <div class="field reveal" data-for="city">
-        <label for="city">المدينة والحي <span class="req">*</span></label>
-        <input id="city" name="city" type="text" autocomplete="address-level2" placeholder="المدينة - الحي">
-        <div class="err">اكتب المدينة والحي</div>
+        <label for="city">الحي <span class="req">*</span> <span class="loc-note">الزيارات داخل الأحساء</span></label>
+        <input id="city" name="city" type="text" autocomplete="address-level2" placeholder="اكتب اسم الحي في الأحساء">
+        <div class="err">اكتب اسم الحي</div>
       </div>
 
       <div class="field reveal" data-for="dates">
@@ -330,7 +336,7 @@
   // ===================== الإعدادات =====================
   var CONFIG = {
     year: 2026, month: 11,                 // 11 = ديسمبر (الشهور تبدأ من 0)
-    disabledWeekdays: [5],                 // 5 = الجمعة. خليها [] لو الجمعة متاحة
+    disabledWeekdays: [],                  // أيام أسبوع مقفولة: 0 الأحد … 5 الجمعة، 6 السبت
     blockedDates: [],                      // أيام مقفولة، مثال: [24, 25]
     whatsapp: "966135855510",
     form: "https://docs.google.com/forms/d/e/1FAIpQLSczCtYpzx5mEKW_85tqaocZQlDspRh-BNVU-MOdn134sscs3Q/formResponse",
@@ -484,7 +490,7 @@
     var data = new URLSearchParams();
     data.append(CONFIG.entries.name, name);
     data.append(CONFIG.entries.phone, phone);
-    data.append(CONFIG.entries.city, city);
+    data.append(CONFIG.entries.city, "الأحساء - " + city);
     data.append(CONFIG.entries.pkg, pkg);
     data.append(CONFIG.entries.dates, selected.map(dateLabel).join("، "));
     if (time) data.append(CONFIG.entries.time, time);
